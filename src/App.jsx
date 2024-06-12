@@ -15,12 +15,27 @@ function App() {
     }
   };
 
+  const handleClickFlag = (flag) => {
+    console.log(clickedFlags, flag);
+    if (clickedFlags.filter((flagC) => flagC === flag).length > 0) {
+      setScore(0);
+      setClickedFlags([]);
+    } else {
+      setClickedFlags([...clickedFlags, flag]);
+      setScore((prevScore) => prevScore + 1);
+    }
+  };
+
+  useEffect(() => {
+    compareScore();
+  }, [clickedFlags]);
+
   return (
     <div className="app">
       <Header score={score} bestScore={bestScore} />
       <div className="flags">
         {flags.map((flag) => (
-          <Card key={flag} flag={flag} />
+          <Card key={flag} flag={flag} handleClickFlag={handleClickFlag} />
         ))}
       </div>
     </div>
