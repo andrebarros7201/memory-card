@@ -9,15 +9,9 @@ function App() {
   const [bestScore, setBestScore] = useState(0);
   const [clickedFlags, setClickedFlags] = useState([]);
 
-  const compareScore = () => {
-    if (score > bestScore) {
-      setBestScore(score);
-    }
-  };
-
   const handleClickFlag = (flag) => {
-    console.log(clickedFlags, flag);
-    if (clickedFlags.filter((flagC) => flagC === flag).length > 0) {
+    // Checks if the clicked flag is already in the clicked flags array
+    if (clickedFlags.filter((x) => x === flag).length > 0) {
       setScore(0);
       setClickedFlags([]);
     } else {
@@ -26,9 +20,17 @@ function App() {
     }
   };
 
+  function shuffleArray(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
+  // Compares the score when the clickedFlags array changes and shuffles the array
   useEffect(() => {
-    compareScore();
-  }, [clickedFlags]);
+    shuffleArray(flags);
+    if (score > bestScore) {
+      setBestScore(score);
+    }
+  }, [bestScore, clickedFlags, score]);
 
   return (
     <div className="app">
